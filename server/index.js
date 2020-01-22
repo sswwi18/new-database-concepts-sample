@@ -1,6 +1,10 @@
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const redis = require('redis');
+
+// Create new redis database client -> if you need other connection options, please specify here
+const redisClient = redis.createClient();
 
 app.get('/', (req, res) => {
     res.send('It works!');
@@ -9,9 +13,24 @@ app.get('/', (req, res) => {
 io.on('connection', socket => {
     console.log('a user connected');
 
+    // After initial connection, send all existing posts to the user
+    redisClient.lrange('wwi-tweety-posts', 0, -1, (err, postJsonStrings) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+
+        // Parse all JSON strings, emit to client
+        const objects = postJsonStrings.map(string => JSON.parse(string));
+        socket.emit('previous posts', JSON.stringify(objects));
+    });
+
     socket.on('post', postAsJson => {
         const post = JSON.parse(postAsJson);
         console.log(post);
+
+        // Save post in redis
+        redisClient.rpush('wwi-tweety-posts', JSON.stringify(post));
 
         // Send Post to everyone
         io.emit('post', JSON.stringify(post));

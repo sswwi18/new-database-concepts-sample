@@ -15,7 +15,7 @@ export class FeedPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.socket.posts$.subscribe(post => this.posts.unshift(post));
+    this.socket.posts$.subscribe(posts => this.posts = posts);
   }
 
   ngOnDestroy(): void {

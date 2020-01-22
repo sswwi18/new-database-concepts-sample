@@ -2,17 +2,25 @@ import {Injectable} from '@angular/core';
 import * as io from 'socket.io-client';
 import {environment} from "../../environments/environment";
 import {Post} from "./feed.interfaces";
-import {Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable()
 export class SocketService {
-  public posts$: Subject<Post> = new Subject<Post>();
+  public posts$: BehaviorSubject<Post[]> = new BehaviorSubject<Post[]>([]);
   private socket: SocketIOClient.Socket = io(environment.socketHost);
 
   constructor() {
     this.socket.on('post', (rawPost: string) => {
-      this.posts$.next(JSON.parse(rawPost));
+      const posts = this.posts$.getValue();
+      posts.unshift(JSON.parse(rawPost));
+      this.posts$.next(posts);
     });
+    this.socket.on('previous posts', (rawPosts: string) => {
+      const posts: Post[] = JSON.parse(rawPosts);
+
+      // Reverse the posts to have the correct chronological order (new -> old)
+      this.posts$.next(posts.reverse());
+    })
   }
 
   public addPost(post: Post) {
