@@ -1,21 +1,28 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Post} from "../feed.interfaces";
+import {SocketService} from "../socket.service";
 
 @Component({
   selector: 'app-feed-page',
   templateUrl: './feed-page.component.html',
-  styleUrls: ['./feed-page.component.scss']
+  styleUrls: ['./feed-page.component.scss'],
+  providers: [SocketService]
 })
-export class FeedPageComponent implements OnInit {
+export class FeedPageComponent implements OnInit, OnDestroy {
   public posts: Post[] = [];
 
-  constructor() {
+  constructor(private socket: SocketService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.socket.posts$.subscribe(post => this.posts.unshift(post));
+  }
+
+  ngOnDestroy(): void {
+    this.socket.close();
   }
 
   addPost(content: string) {
-    this.posts.push({content});
+    this.socket.addPost({content});
   }
 }
