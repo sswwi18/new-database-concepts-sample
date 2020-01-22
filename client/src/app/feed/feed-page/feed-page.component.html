@@ -1,0 +1,20 @@
+<form (submit)="$event.preventDefault(); addPost(postContent.value)">
+  <div class="form-group">
+    <label class="sr-only" for="postContent">Write down your thoughts...</label>
+    <textarea #postContent class="form-control" id="postContent" placeholder="Write down your thoughts..."
+              rows="3"></textarea>
+  </div>
+
+  <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+
+<hr>
+
+<!-- Placeholder, if no posts are available -->
+<div *ngIf="posts?.length === 0" class="container">
+  <h1 class="mt-5">No Posts :/</h1>
+  <p class="lead">There are no posts, yet! Maybe you should enter your thoughts here...</p>
+</div>
+
+<!-- Render posts -->
+<app-post *ngFor="let post of posts" [post]="post"></app-post>
