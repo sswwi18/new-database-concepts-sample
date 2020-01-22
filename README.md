@@ -1,6 +1,6 @@
 # Example Project for "New Database Concepts"
 
-This is an example project for the course "New Database Concepts" at [Baden-Wuerrtemberg Cooperative State University (DHBW)](https://www.heidenheim.dhbw.de/).
+This is an example project for the course "New Database Concepts" at [Baden-Wuerttemberg Cooperative State University (DHBW)](https://www.heidenheim.dhbw.de/).
 
 ## Requirements
 
