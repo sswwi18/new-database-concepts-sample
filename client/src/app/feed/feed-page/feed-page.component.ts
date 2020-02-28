@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Post} from "../feed.interfaces";
 import {SocketService} from "../socket.service";
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-feed-page',
@@ -23,7 +24,7 @@ export class FeedPageComponent implements OnInit, OnDestroy {
   }
 
   addPost(content: string) {
-    var id=Math.random();
-    this.socket.addPost({content, like:0, id:id});
+    var id=uuid();
+    this.socket.addPost({content, id:id,  like:0, dislike:0});
   }
 }

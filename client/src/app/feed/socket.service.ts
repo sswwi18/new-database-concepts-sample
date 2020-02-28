@@ -20,10 +20,14 @@ export class SocketService {
     this.socket.on('like', (rawPost: string, position: number) => {
      const posts = this.posts$.getValue();
      posts.reverse().splice(position,1, JSON.parse(rawPost));
-  this.posts$.next(posts.reverse());
-        //console.log(position)
-      
+    this.posts$.next(posts.reverse());
     });
+
+    this.socket.on('dislike', (rawPost: string, position: number) => {
+      const posts = this.posts$.getValue();
+      posts.reverse().splice(position,1, JSON.parse(rawPost));
+     this.posts$.next(posts.reverse()); 
+     });
 
     this.socket.on('previous posts', (rawPosts: string) => {
       const posts: Post[] = JSON.parse(rawPosts);
@@ -45,4 +49,9 @@ export class SocketService {
   public addLike (post: Post) {
     this.socket.emit('like', JSON.stringify(post));
   }
+
+  public addDislike (post: Post) {
+    this.socket.emit('dislike', JSON.stringify(post));
+  }
+
 }
