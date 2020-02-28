@@ -9,12 +9,22 @@ export class SocketService {
   public posts$: BehaviorSubject<Post[]> = new BehaviorSubject<Post[]>([]);
   private socket: SocketIOClient.Socket = io(environment.socketHost);
 
+  //constructor Server
   constructor() {
     this.socket.on('post', (rawPost: string) => {
       const posts = this.posts$.getValue();
       posts.unshift(JSON.parse(rawPost));
       this.posts$.next(posts);
     });
+
+    this.socket.on('like', (rawPost: string, position: number) => {
+     const posts = this.posts$.getValue();
+     posts.reverse().splice(position,1, JSON.parse(rawPost));
+  this.posts$.next(posts.reverse());
+        //console.log(position)
+      
+    });
+
     this.socket.on('previous posts', (rawPosts: string) => {
       const posts: Post[] = JSON.parse(rawPosts);
 
@@ -30,5 +40,9 @@ export class SocketService {
   public close(): void {
     this.socket.close();
     this.posts$.complete();
+  }
+
+  public addLike (post: Post) {
+    this.socket.emit('like', JSON.stringify(post));
   }
 }
