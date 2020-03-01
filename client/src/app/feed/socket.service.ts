@@ -17,6 +17,12 @@ export class SocketService {
       this.posts$.next(posts);
     });
 
+    this.socket.on('image', (rawImage: string) => {
+      const posts = this.posts$.getValue();
+      posts.unshift(JSON.parse(rawImage));
+      this.posts$.next(posts);
+    });
+
     this.socket.on('like', (rawPost: string, position: number) => {
      const posts = this.posts$.getValue();
      posts.reverse().splice(position,1, JSON.parse(rawPost));
@@ -38,7 +44,13 @@ export class SocketService {
   }
 
   public addPost(post: Post) {
+    console.log('post');
     this.socket.emit('post', JSON.stringify(post));
+  }
+
+  public addImage(image: Post){
+    console.log('addImage-socket' + image);
+    this.socket.emit('image', image);
   }
 
   public close(): void {

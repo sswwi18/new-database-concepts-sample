@@ -3,6 +3,7 @@ import {Post} from "../feed.interfaces";
 import {SocketService} from "../socket.service";
 import { v4 as uuid } from 'uuid';
 
+
 @Component({
   selector: 'app-feed-page',
   templateUrl: './feed-page.component.html',
@@ -24,7 +25,24 @@ export class FeedPageComponent implements OnInit, OnDestroy {
   }
 
   addPost(content: string) {
+
     var id=uuid();
-    this.socket.addPost({content, id:id,  like:0, dislike:0});
+    this.socket.addPost({content, image: false, id:id,  like:0, dislike:0});
   }
+
+  addImage(event){
+    console.log('addImage');
+    console.log(event);
+    var id = uuid();
+    var file = event.currentTarget.files[0];
+    console.log(file);
+    var reader = new FileReader();
+    reader.onload = (e) => {
+      var content = reader.result as string;
+      this.socket.addImage({content, image: true, id: id ,like: 0, dislike: 0});
+    }
+    reader.readAsDataURL(file);
+    };
 }
+
+

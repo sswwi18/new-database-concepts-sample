@@ -1,6 +1,12 @@
 <div *ngIf="post != null" class="card post">
-  <div class="card-body">
-    {{post.content}}
+  <div class="card-body" id='postDiv'>
+    <div *ngIf="post.image === true">
+        <img [attr.src]=post.content>
+    </div>
+    <div *ngIf="post.image === false">
+      {{post.content}}
+  
+  </div>
   </div>
   <app-like-button [post]="post"></app-like-button>
   <app-dislike-button [post]="post"></app-dislike-button>

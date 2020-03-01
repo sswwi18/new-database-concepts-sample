@@ -27,7 +27,7 @@ io.on('connection', socket => {
 
     socket.on('post', postAsJson => {
         const post = JSON.parse(postAsJson);
-        console.log('posting: ' + post);
+        console.log('posting: ' + JSON.stringify(post));
 
         // Save post in redis
         redisClient.rpush('wwi-tweety-posts', JSON.stringify(post));
@@ -36,6 +36,19 @@ io.on('connection', socket => {
         // Send Post to everyone
         io.emit('post', JSON.stringify(post));
     });
+
+    socket.on('image', image => {
+        //console.log(image); 
+        image = JSON.stringify(image);
+        //console.log(image);
+        // Save post in redis
+        redisClient.rpush('wwi-tweety-posts', image);
+        
+
+        // Send Post to everyone
+        io.emit('image', image);
+    });
+
 
     socket.on('like', postAsJson => {
         const post = JSON.parse(postAsJson);
