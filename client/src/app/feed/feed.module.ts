@@ -6,6 +6,7 @@ import {PostComponent} from './post/post.component';
 import { LikeButtonComponent } from './like-button/like-button.component';
 import { DislikeButtonComponent } from './dislike-button/dislike-button.component';
 
+
 @NgModule({
   declarations: [FeedPageComponent, PostComponent, LikeButtonComponent, DislikeButtonComponent],
   imports: [
