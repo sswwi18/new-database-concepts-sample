@@ -1,16 +1,19 @@
 <form (submit)="$event.preventDefault(); addPost(postContent.value)">
   <div class="form-group">
     <label class="sr-only" for="postContent">Write down your thoughts...</label>
-    <textarea #postContent class="form-control" id="postContent" placeholder="Write down your thoughts..."
+    <textarea #postContent class="form-control" id="postContent" placeholder="Schreibe etwas..."
               rows="3"></textarea>
   </div>
 
-  <button class="btn btn-primary" type="submit">Submit</button>
+  <button class="btn btn-primary" type="submit">Senden</button>
 </form>
 
 <!--<form (submit)="$event.preventDefault(); addImage($event)">-->
-  <div class="form-group">
-      <div class="filebutton">Send Image<input type="file" id="imagefile" accept="image/*" (change)="addImage($event)"></div>
+  <div class="form-group mt-4">
+      <div class="filebutton">
+        <label class="pr-3">Bild hochladen:</label>
+        <input class="btn btn-secondary" type="file" id="imagefile" accept="image/*" (change)="addImage($event)">
+      </div>
   </div>
 
 <!--</form>-->
@@ -20,8 +23,8 @@
 
 <!-- Placeholder, if no posts are available -->
 <div *ngIf="posts?.length === 0" class="container">
-  <h1 class="mt-5">No Posts :/</h1>
-  <p class="lead">There are no posts, yet! Maybe you should enter your thoughts here...</p>
+  <h1 class="mt-5">Keine Posts :/</h1>
+  <p class="lead">Es sind noch keine Posts vorhanden! Vielleicht solltest du etwas schreiben...</p>
 </div>
 
 <!-- Render posts -->
