@@ -1,12 +1,27 @@
 <div *ngIf="post != null" class="card post">
   <div class="card-body" id='postDiv'>
     <div class="center" *ngIf="post.image === true">
-        <img [attr.src]=post.content>
+        <img [attr.src]=post.content[0]>
     </div>
     <div *ngIf="post.image === false">
-      {{post.content}}
-  
+      <div *ngFor="let word of post.content">
+      
+        <div *ngIf="post.hashtags.includes(word); else text">
+          <a style="float: left;" href="{{'/hashtag/' + word.slice(1)}}" [attr.id]=post.id (click)="hashtag(word)" >{{word}}</a>
+        </div>
+        <ng-template #text>
+          <p style="float: left;">{{word}}</p>
+        </ng-template>
+
+      </div>
   </div>
+
+ 
+
+ 
+
+
+
   </div>
   <div class="bottom bg-light">
 

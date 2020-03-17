@@ -1,0 +1,21 @@
+<form (submit)="$event.preventDefault(); filter(postContent.value)">
+    <div class="form-group">
+      <label class="sr-only" for="postContent">Search for...</label>
+      <textarea #postContent class="form-control" id="postContent" placeholder="Suche nach..."
+                rows="3"></textarea>
+    </div>
+  
+    <button class="btn btn-primary" type="submit">Senden</button>
+  </form>
+  
+  <hr>
+  
+  <!-- Placeholder, if no posts are available -->
+  <div *ngIf="posts?.length === 0" class="container">
+    <h1 class="mt-5">Keine Posts :/</h1>
+    <p class="lead">Es gibt keine Posts zu diesem Suchbegriff...</p>
+  </div>
+  
+  <!-- Render posts -->
+ <app-post *ngFor="let post of posts" [post]="post"></app-post>
+  

@@ -27,19 +27,34 @@ export class FeedPageComponent implements OnInit, OnDestroy {
   addPost(content: string) {
 
     var id=uuid();
-    this.socket.addPost({content, image: false, id:id,  like:0, dislike:0});
+
+    var words = content.split(" ");
+    var hashtags = [];
+
+    for (var i = 0; i < words.length; i++) {
+      if(words[i][0] == "#"){
+        hashtags.push(words[i]);
+      }
+      }
+    
+      console.log(hashtags);
+
+    this.socket.addPost({content: words, image: false, id:id, hashtags,  like:0, dislike:0});
   }
 
   addImage(event){
     console.log('addImage');
     console.log(event);
+    var hashtags = [];
     var id = uuid();
     var file = event.currentTarget.files[0];
     console.log(file);
     var reader = new FileReader();
     reader.onload = (e) => {
       var content = reader.result as string;
-      this.socket.addImage({content, image: true, id: id ,like: 0, dislike: 0});
+      var url = [];
+      url.push(content);
+      this.socket.addImage({content: url, image: true, hashtags, id: id ,like: 0, dislike: 0});
     }
     reader.readAsDataURL(file);
     };
