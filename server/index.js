@@ -113,9 +113,14 @@ io.on('connection', socket => {
             // Parse all JSON strings, emit to client
             const objects = postJsonStrings.map(string => JSON.parse(string));
 
-            for(var i = 0; i < objects.length; i++){
-               if(objects[i]["content"].includes(filter) || objects[i]["content"].includes("#"+filter) || objects[i]["content"].includes(filter.slice(1))){
-                    posts.push(objects[i]);
+            var filters = filter.split(" ");
+            console.log(filters);
+            for (var j = 0; j < filters.length; j++){
+                for(var i = 0; i < objects.length; i++){
+                    
+                    if(objects[i]["content"].includes(filters[j]) || objects[i]["content"].includes("#"+filters[j]) || objects[i]["content"].includes(filters[j].slice(1))){
+                            posts.push(objects[i]);
+                        }
                 }
             }
             socket.emit('filtered posts', JSON.stringify(posts));
