@@ -40,7 +40,16 @@ export class SocketService {
 
       // Reverse the posts to have the correct chronological order (new -> old)
       this.posts$.next(posts.reverse());
-    })
+    });
+
+    this.socket.on('filtered posts', (rawPosts: string) => {
+      const posts: Post[] = JSON.parse(rawPosts);
+
+      // Reverse the posts to have the correct chronological order (new -> old)
+      this.posts$.next(posts.reverse());
+    });    
+
+
   }
 
   public addPost(post: Post) {
@@ -65,5 +74,10 @@ export class SocketService {
   public addDislike (post: Post) {
     this.socket.emit('dislike', JSON.stringify(post));
   }
+
+  public filter(filter: string){ 
+    this.socket.emit('filter', filter);
+  }
+
 
 }

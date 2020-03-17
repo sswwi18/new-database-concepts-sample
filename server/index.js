@@ -10,6 +10,7 @@ app.get('/', (req, res) => {
     res.send('It works!');
 });
 
+
 io.on('connection', socket => {
     console.log('a user connected');
 
@@ -101,6 +102,25 @@ io.on('connection', socket => {
     })
     });
 
+
+    socket.on('filter', filter => {
+        redisClient.lrange('wwi-tweety-posts', 0, -1, (err, postJsonStrings) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            var posts = [];
+            // Parse all JSON strings, emit to client
+            const objects = postJsonStrings.map(string => JSON.parse(string));
+
+            for(var i = 0; i < objects.length; i++){
+               if(objects[i]["content"].includes(filter) || objects[i]["content"].includes("#"+filter) || objects[i]["content"].includes(filter.slice(1))){
+                    posts.push(objects[i]);
+                }
+            }
+            socket.emit('filtered posts', JSON.stringify(posts));
+    })
+    });
 
 
     socket.on('disconnect', () => {
