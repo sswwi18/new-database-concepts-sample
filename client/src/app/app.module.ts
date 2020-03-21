@@ -3,6 +3,8 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {FeedModule} from './feed/feed.module';
+import {AuthenticationModule} from './authentication/authentication.module';
+
 
 
 @NgModule({
@@ -12,7 +14,8 @@ import {FeedModule} from './feed/feed.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FeedModule
+    FeedModule,
+    AuthenticationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
