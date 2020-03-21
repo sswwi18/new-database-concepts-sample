@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.userService.validate(this.f.username.value, this.f.password.value).then((response) => {
+      console.log(response);
       this.userService.setUserInfo({'user': response['user']});
       this.router.navigate(['feed']);
     })
