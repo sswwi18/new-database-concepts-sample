@@ -20,8 +20,13 @@ export class UserService {
     }
 
     public setUserInfo(user){
-        localStorage.setItem('userInfo', JSON.stringify(user));
+        localStorage.setItem('userInfo', JSON.stringify(user['user']));
     }
+
+    public getUserInfo(){
+        return localStorage.getItem('userInfo');
+    }
+
 
     register(user: User) {
         delete user["password_validation"];

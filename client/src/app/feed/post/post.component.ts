@@ -23,7 +23,6 @@ export class PostComponent implements OnInit {
     console.log(item["post"]);
     var post = JSON.parse(JSON.stringify(item["post"]));
     var id = (post["id"]);
-    //var link = "localhost:4200/hashtag?filter=" + document.getElementById(id).getAttribute("href").slice(1);  
     var filter = document.getElementById(id).getAttribute("href").slice(1)
     console.log("filter: " + filter);
     this.socket.filter(filter);

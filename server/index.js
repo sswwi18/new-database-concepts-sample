@@ -75,7 +75,7 @@ passport.use(new LocalStrategy(
             const users = postJsonStrings.map(string => JSON.parse(string));
             for (var i = 0; i < users.length; i++){
                 if(users[i].username == username && users[i].password == password){
-                    return done(null, username);
+                    return done(null, users[i]);
                 }
             }  return done("unauthorized access", false);
         });
@@ -133,6 +133,7 @@ passport.deserializeUser(function(id, done) {
 
 
 app.post('/authenticate', auth() , (req, res) => {
+    console.log(req.user);
     res.status(200).json({"statusCode" : 200 ,"user" : req.user});
 });
 
