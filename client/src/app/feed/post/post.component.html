@@ -7,7 +7,7 @@
       <div *ngFor="let word of post.content">
       
         <div *ngIf="post.hashtags.includes(word); else text">
-          <a style="float: left;" href="{{'/hashtag/' + word.slice(1)}}" [attr.id]=post.id (click)="hashtag(word)" >{{word}}</a>
+          <a style="float: left;" href="{{'/hashtag/' + word.slice(1)}}" [attr.id]=post.id>{{word}}</a>
         </div>
         <ng-template #text>
           <p style="float: left;">{{word}}</p>

@@ -17,16 +17,4 @@ export class PostComponent implements OnInit {
   ngOnInit() {
   }
 
-  hashtag(item){
-    console.log(item);
-    console.log("hashtag");
-    console.log(item["post"]);
-    var post = JSON.parse(JSON.stringify(item["post"]));
-    var id = (post["id"]);
-    var filter = document.getElementById(id).getAttribute("href").slice(1)
-    console.log("filter: " + filter);
-    this.socket.filter(filter);
-  }
-
-
 }
