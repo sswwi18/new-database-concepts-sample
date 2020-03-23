@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {UserService} from '../user.service';
-
+import {User} from '../authentication.interfaces';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string; 
   error = '';
+    
+  public user: User = {"id" : null, "password": "", "username": ""};   
 
 
   constructor(
@@ -37,11 +39,13 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid){
       return;
     }
-    this.userService.validate(this.f.username.value, this.f.password.value).then((response) => {
-      console.log(response);
-      this.userService.setUserInfo({'user': response['user']});
-      this.router.navigate(['feed']);
-    })
+    this.userService.validate(this.f.username.value, this.f.password.value)
+      .subscribe(data => {
+        this.user = data['user'];
+        console.log(this.user);
+        this.userService.setUserInfo({'user': this.user});
+        this.router.navigate(['feed'])},
+        error => this.error = JSON.stringify(error['error']['message']).slice(1, -1));
   }
 
 }

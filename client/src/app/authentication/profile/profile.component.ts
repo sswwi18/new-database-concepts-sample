@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../user.service';
 import {User} from '../authentication.interfaces';
-
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,7 +12,9 @@ import {User} from '../authentication.interfaces';
 export class ProfileComponent implements OnInit {
 
   public user: User = {"id" : null, "password": "", "username": ""};
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private router: Router) { }
 
   ngOnInit() {
    let userInfo = JSON.parse(this.userService.getUserInfo());
@@ -20,7 +22,10 @@ export class ProfileComponent implements OnInit {
     this.user.username = userInfo['username'];
   }
 
-
+  logout(){
+    this.userService.logout(this.user);
+    this.router.navigate(['login']);
+  }
 
 
 }
