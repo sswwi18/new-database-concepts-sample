@@ -38,16 +38,26 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    if(this.f.password.value !== this.f.password_validation.value){
+      return this.error = 'passwords do not match'; 
+    }
+   
+
     this.loading = true;
-    console.log(this.f.username.value);
-    console.log(this.f.password.value);
-    console.log(this.f.password_validation.value);
+   
 
-    this.UserService.register(this.registerForm.value).then((response) => {
-      console.log(response);
-      this.router.navigate(['login']);
-    })
-    
-  };
-
+    this.UserService.register(this.registerForm.value)
+      .subscribe(data => {
+        console.log(data);
+        this.router.navigate(['login']);
+      }, 
+      error => {
+        console.log(error);
+        this.loading = false;
+        return this.error = 'username already taken'
+      }
+      )
+     
+      };
+  
 }

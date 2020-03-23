@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
+const bcrypt = require('bcrypt');
+
+
 
 // Create new redis database client -> if you need other connection options, please specify here
 const redisClient = redis.createClient();
@@ -20,8 +23,9 @@ app.use(bodyParser.json());
 const auth = () => {
     return (req, res, next) => {
         passport.authenticate('local', (error, user, info) => {
-            if(error) res.status(400).json({"statusCode" : 200, "message" : error});
+            if(error) res.status(400).json({"statusCode" : 400, "message" : error});
             req.login(user, function(error){
+                console.log("auth: "+ user);
                 if(error) return next(error);
                 next();
             });
@@ -74,10 +78,17 @@ passport.use(new LocalStrategy(
             // Parse all JSON strings, emit to client
             const users = postJsonStrings.map(string => JSON.parse(string));
             for (var i = 0; i < users.length; i++){
-                if(users[i].username == username && users[i].password == password){
-                    return done(null, users[i]);
-                }
-            }  return done("unauthorized access", false);
+                if(users[i].username == username){
+                    var user = users[i];
+                    bcrypt.compare(password, users[i].password, function(err, isMatch){
+                        if(err){return done(err)}
+                        if(!isMatch){
+                            return done('wrong password', false);
+                        }
+                        return done(null, user);
+                    })               
+                } else if(i == users.length - 1){return done('wrong username', false);}   
+            }
         });
     }
 ));
@@ -109,9 +120,14 @@ app.post('/users/register', (req, res) => {
         user["id"] = 1;
     }
     
-  
-    console.log(user["password"]);
-    redisClient.rpush('wwi-tweety-users', JSON.stringify(user));
+    bcrypt.hash(user["password"], 10, function(err, hash){
+        if(err){
+            return err;
+        }
+        user["password"] = hash;
+        redisClient.rpush('wwi-tweety-users', JSON.stringify(user));
+        console.log(user["password"]);
+    });
 
     return res.status(200).json({"statusCode" : 200, "message" : "registration successful"});
     })
@@ -133,9 +149,17 @@ passport.deserializeUser(function(id, done) {
 
 
 app.post('/authenticate', auth() , (req, res) => {
-    console.log(req.user);
     res.status(200).json({"statusCode" : 200 ,"user" : req.user});
 });
+
+
+app.post('/logout', (req, res) => {
+    req.logOut();
+    req.session.destroy();
+    res.send(200).json({"statusCode" : 200, "message" : "logged out"});
+})
+
+
 
 //socket io
 

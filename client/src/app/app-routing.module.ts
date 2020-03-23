@@ -9,13 +9,13 @@ import {AuthGuardService as AuthGuard} from './authentication/auth-guard.service
 
 
 const routes: Routes = [
-  {path: '', redirectTo: '/feed', pathMatch: 'full'},
+  {path: '', redirectTo: '/feed', pathMatch: 'full', canActivate: [AuthGuard]},
   {path: 'feed', loadChildren: () => import('./feed/feed.module').then(r => r.FeedModule), canActivate: [AuthGuard]},
-  {path: 'hashtag', component: FilterFeedComponent},
-  {path: 'hashtag/:filter', component: FilterFeedComponent},
+  {path: 'hashtag', component: FilterFeedComponent, canActivate: [AuthGuard]},
+  {path: 'hashtag/:filter', component: FilterFeedComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'profile', component: ProfileComponent}
+  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]}
 
 ];
 
