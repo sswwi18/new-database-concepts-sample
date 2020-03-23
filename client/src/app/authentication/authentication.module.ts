@@ -15,6 +15,6 @@ import { ProfileComponent } from './profile/profile.component';
     ReactiveFormsModule,
     HttpClientModule
   ], 
-  exports: [LoginComponent]
+  exports: [LoginComponent, HttpClientModule]
 })
 export class AuthenticationModule { }
