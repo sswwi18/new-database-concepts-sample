@@ -87,7 +87,7 @@ passport.use(new LocalStrategy(
                         }
                         return done(null, user);
                     })               
-                } else if(i == users.length - 1){return done('wrong username', false);}   
+                }
             }
         });
     }

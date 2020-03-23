@@ -4,7 +4,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {FeedModule} from './feed/feed.module';
 import {AuthenticationModule} from './authentication/authentication.module';
-
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -17,6 +17,7 @@ import {AuthenticationModule} from './authentication/authentication.module';
     FeedModule,
     AuthenticationModule
   ],
+  exports: [HttpClientModule],
   providers: [],
   bootstrap: [AppComponent]
 })
