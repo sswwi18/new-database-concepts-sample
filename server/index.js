@@ -256,7 +256,7 @@ io.on('connection', socket => {
     });
 
 
-    socket.on('filter', filter => {
+    socket.on('filter', (filter, type) => {
         redisClient.lrange('wwi-tweety-posts', 0, -1, (err, postJsonStrings) => {
             if (err) {
                 console.error(err);
@@ -270,10 +270,16 @@ io.on('connection', socket => {
             console.log(filters);
             for (var j = 0; j < filters.length; j++){
                 for(var i = 0; i < objects.length; i++){
-                    
-                    if(objects[i]["content"].includes(filters[j]) || objects[i]["content"].includes("#"+filters[j]) || objects[i]["content"].includes(filters[j].slice(1))){
+                    if(type === "hashtag"){
+                        if(objects[i]["content"].includes(filters[j]) || objects[i]["content"].includes("#"+filters[j]) || objects[i]["content"].includes(filters[j].slice(1)) ){
                             posts.push(objects[i]);
                         }
+                    }
+                    if(type === "users"){
+                        if(objects[i]["user"].includes(filters[j]) ){
+                            posts.push(objects[i]);
+                        }
+                    }
                 }
             }
             socket.emit('filtered posts', JSON.stringify(posts));

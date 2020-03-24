@@ -5,4 +5,5 @@ export interface Post {
   dislike: number;
   hashtags: Array<string>; 
   id: number;
+  user: string;
 }

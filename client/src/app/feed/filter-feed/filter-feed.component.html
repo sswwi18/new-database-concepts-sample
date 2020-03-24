@@ -1,10 +1,13 @@
-<form (submit)="$event.preventDefault(); filter(postContent.value)">
+<form (submit)="$event.preventDefault(); filter(postContent.value, type.options[type.selectedIndex].value)">
     <div class="form-group">
       <label class="sr-only" for="postContent">Search for...</label>
       <textarea #postContent class="form-control" id="postContent" placeholder="Suche nach..."
                 rows="3"></textarea>
     </div>
-  
+    <select #type>
+      <option value="hashtag">hashtag</option>
+      <option value="users">user</option>
+    </select>
     <button class="btn btn-primary" type="submit">Senden</button>
   </form>
   

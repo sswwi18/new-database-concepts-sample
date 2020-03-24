@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Post} from "../feed.interfaces";
 import {SocketService} from "../socket.service";
 import {ActivatedRoute, Router} from '@angular/router';
+import { type } from 'os';
 
 
 @Component({
@@ -27,16 +28,18 @@ export class FilterFeedComponent implements OnInit {
 
   filterUrl():void{
     var filter = this.route.snapshot.paramMap.get('filter');
-    filter = filter.trim();
+    
+    var type : string = this.route.snapshot.url[0].path;
     if(filter){
-      this.socket.filter(filter);
-    }
+        filter = filter.trim();
+        this.socket.filter(filter, type);
+      }
   }
 
-  filter(filter: string) {
+  filter(filter: string, type: string) {
     filter = filter.trim();
     this.router.navigate(['hashtag', filter]);
-    this.socket.filter(filter);
+    this.socket.filter(filter, type);
   }
    
 

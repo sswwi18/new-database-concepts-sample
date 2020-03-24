@@ -75,8 +75,8 @@ export class SocketService {
     this.socket.emit('dislike', JSON.stringify(post));
   }
 
-  public filter(filter: string){ 
-    this.socket.emit('filter', filter);
+  public filter(filter: string, type: string){ 
+    this.socket.emit('filter', filter, type);
   }
 
 

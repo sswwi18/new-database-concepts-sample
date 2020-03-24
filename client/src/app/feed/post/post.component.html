@@ -2,8 +2,10 @@
   <div class="card-body" id='postDiv'>
     <div class="center" *ngIf="post.image === true">
         <img [attr.src]=post.content[0]>
+        <p> posted by:<a href="{{'/users/' + post.user}}"> {{post.user}}</a></p>
     </div>
     <div *ngIf="post.image === false">
+      
       <div *ngFor="let word of post.content">
       
         <div *ngIf="post.hashtags.includes(word); else text">
@@ -12,8 +14,8 @@
         <ng-template #text>
           <p style="float: left;">{{word}}</p>
         </ng-template>
-
       </div>
+      <p> posted by:<a href="{{'/users/' + post.user}}"> {{post.user}}</a></p>
   </div>
 
  

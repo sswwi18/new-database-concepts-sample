@@ -4,7 +4,7 @@ import {FilterFeedComponent} from './feed/filter-feed/filter-feed.component';
 import {LoginComponent} from './authentication/login/login.component';
 import {RegisterComponent} from './authentication/register/register.component';
 import {ProfileComponent} from './authentication/profile/profile.component';
-import {AuthGuardService as AuthGuard} from './authentication/auth-guard.service' 
+import {AuthGuardService as AuthGuard, AuthGuardService} from './authentication/auth-guard.service' 
 
 
 
@@ -15,7 +15,8 @@ const routes: Routes = [
   {path: 'hashtag/:filter', component: FilterFeedComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]}
+  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'users/:filter', component: FilterFeedComponent, canActivate: [AuthGuard]}
 
 ];
 
