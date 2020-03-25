@@ -4,11 +4,13 @@
       <textarea #postContent class="form-control" id="postContent" placeholder="Suche nach..."
                 rows="3"></textarea>
     </div>
-    <select #type>
-      <option value="hashtag">hashtag</option>
-      <option value="users">user</option>
+    <div class="form-inline">
+    <select class="form-control mr-3 w-25" #type>
+      <option value="hashtag">Hashtag</option>
+      <option value="users">User</option>
     </select>
     <button class="btn btn-primary" type="submit">Senden</button>
+  </div>
   </form>
   
   <hr>
