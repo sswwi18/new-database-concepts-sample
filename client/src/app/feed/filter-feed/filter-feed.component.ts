@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Post} from "../feed.interfaces";
 import {SocketService} from "../socket.service";
 import {ActivatedRoute, Router} from '@angular/router';
-import { type } from 'os';
 
 
 @Component({

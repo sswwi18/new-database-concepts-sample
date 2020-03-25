@@ -1,0 +1,26 @@
+<form (submit)="$event.preventDefault(); follow(postContent.value)">
+    <div class="form-group">
+      <label class="sr-only" for="postContent">Search for...</label>
+      <input #postContent class="form-control" id="postContent" name="username"[(ngModel)]="username" placeholder="Suche nach user...">
+    </div>
+  </form>
+
+  <div *ngFor ="let user of users | filter: username" >
+    {{user}} <button (click)="follow(user)">follow</button> <button (click)="unfollow(user)">unfollow</button> 
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+  <div *ngIf="success" class="alert alert-success mt-3 mb-0">{{success}}</div>
+  <hr>
+  
+  <h1>Follow Feed</h1>
+   <!-- Placeholder, if no posts are available -->
+   <div *ngIf="posts?.length === 0" class="container">
+    <h1 class="mt-5">Keine Posts :/</h1>
+    <p class="lead">Es gibt keine Posts zu diesem Suchbegriff...</p>
+  </div>
+  
+  <!-- Render posts -->
+ <app-post *ngFor="let post of posts" [post]="post"></app-post>
+  
+  

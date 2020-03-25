@@ -4,10 +4,12 @@ import {environment} from "../../environments/environment";
 import {Post} from "./feed.interfaces";
 import {BehaviorSubject} from "rxjs";
 
+
 @Injectable()
 export class SocketService {
   public posts$: BehaviorSubject<Post[]> = new BehaviorSubject<Post[]>([]);
   private socket: SocketIOClient.Socket = io(environment.socketHost);
+
 
   //constructor Server
   constructor() {
@@ -78,6 +80,5 @@ export class SocketService {
   public filter(filter: string, type: string){ 
     this.socket.emit('filter', filter, type);
   }
-
 
 }

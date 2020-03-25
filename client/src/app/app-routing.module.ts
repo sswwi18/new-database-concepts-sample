@@ -5,6 +5,7 @@ import {LoginComponent} from './authentication/login/login.component';
 import {RegisterComponent} from './authentication/register/register.component';
 import {ProfileComponent} from './authentication/profile/profile.component';
 import {AuthGuardService as AuthGuard, AuthGuardService} from './authentication/auth-guard.service' 
+import { FollowComponent } from './feed/follow/follow.component';
 
 
 
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path: 'users/:filter', component: FilterFeedComponent, canActivate: [AuthGuard]}
+  {path: 'users/:filter', component: FilterFeedComponent, canActivate: [AuthGuard]},
+  {path: 'follow', component: FollowComponent, canActivate: [AuthGuard]}
 
 ];
 

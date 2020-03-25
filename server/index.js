@@ -1,4 +1,5 @@
-const app = require('express')();
+const express = require('express');
+const app = new express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const redis = require('redis');
@@ -7,29 +8,32 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const bcrypt = require('bcrypt');
-
+const cookieParser = require('cookie-parser');
 
 
 // Create new redis database client -> if you need other connection options, please specify here
+
 const redisClient = redis.createClient();
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.set('trust proxy', 1);
 app.use(session({secret: 'NewDBConcepts2020', resave: true, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+
 
 
 
 const auth = () => {
     return (req, res, next) => {
-        passport.authenticate('local', (error, user, info) => {
-            if(error) res.status(400).json({"statusCode" : 400, "message" : error});
-            req.login(user, function(error){
-                console.log("auth: "+ user);
-                if(error) return next(error);
+        passport.authenticate('local', {session:true}, (error, user, info) => {
+            if(error) res.status(400).json({"statusCode" : 200 ,"message" : error});
+            req.login(user, function(error) {
+                if (error) return next(error);
                 next();
             });
-            })(req, res, next);
+        })(req, res, next);
     }
 }
 
@@ -44,6 +48,7 @@ const isLoggedIn = (req, res, next) => {
 
 app.all("/*", function(req, res, next){
     res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
     next();
@@ -134,7 +139,67 @@ app.post('/users/register', (req, res) => {
 });
 
 
+app.post('/follow', isLoggedIn, (req, res) => {
+    console.log(req.body.user);
+    var follow = req.body.user;
+   
+    console.log(req.isAuthenticated());
 
+    redisClient.lrange('wwi-tweety-users', 0, -1, (err, usersJsonStrings) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        const objects = usersJsonStrings.map(string => JSON.parse(string));
+        for (var i = 0; i<objects.length; i++){
+            if(objects[i].follows.includes(follow)){
+                console.log(objects[i].follows);
+                console.log(follow);
+                return res.status(400).json({"statusCode" : 400, "message" : "already following"});
+               
+            }
+            else if (objects[i].username === req.user.username){
+                objects[i].follows.push(follow); 
+                console.log(JSON.stringify(objects[i]));
+                redisClient.lset('wwi-tweety-users', i, JSON.stringify(objects[i]) );
+                req.user.follows.push(follow);
+                return res.status(200).json({"statusCode" : 200, "user" : req.user,  "message" : "following successful"});
+            }
+        }
+    })
+
+   
+
+});
+
+app.post('/unfollow', isLoggedIn, (req, res) => {
+    console.log(req.body.user);
+    var unfollow = req.body.user;
+   
+    redisClient.lrange('wwi-tweety-users', 0, -1, (err, usersJsonStrings) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        const objects = usersJsonStrings.map(string => JSON.parse(string));
+        for (var i = 0; i<objects.length; i++){
+            if (objects[i].username === req.user.username){
+                var index = objects[i].follows.indexOf(unfollow);
+                if (index !== -1) {objects[i].follows.splice(index, 1)};
+                console.log(JSON.stringify(objects[i]));
+                redisClient.lset('wwi-tweety-users', i, JSON.stringify(objects[i]) )
+
+
+                var index = req.user.follows.indexOf(unfollow);
+                if (index !== -1) {req.user.follows.splice(index, 1)};
+                return res.status(200).json({"statusCode" : 200, "user" : req.user ,"message" : "unfollowing successful"});
+            }
+        }
+    })
+
+   
+
+});
 
 
 passport.serializeUser(function(user, done) {
@@ -157,7 +222,8 @@ app.post('/logout', (req, res) => {
     req.logOut();
     req.session.destroy();
     res.send(200).json({"statusCode" : 200, "message" : "logged out"});
-})
+});
+
 
 
 
@@ -285,6 +351,8 @@ io.on('connection', socket => {
             socket.emit('filtered posts', JSON.stringify(posts));
     })
     });
+
+  
 
 
     socket.on('disconnect', () => {
