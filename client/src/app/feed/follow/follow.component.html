@@ -5,8 +5,10 @@
     </div>
   </form>
 
-  <div *ngFor ="let user of users | filter: username" >
-    {{user}} <button (click)="follow(user)">follow</button> <button (click)="unfollow(user)">unfollow</button> 
+  <div *ngFor ="let user of users | filter: username">
+    <div class="d-inline-flex mb-2">
+    <div class="pr-2 min-w"> {{user}} </div> <div class="pr-2"><button class="btn btn-primary btn-sm" (click)="follow(user)">Follow</button> </div> <div class="pr-2"><button class="btn btn-danger btn-sm" (click)="unfollow(user)">Unfollow</button> </div><br>
+  </div>
   </div>
 
   <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
