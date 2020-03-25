@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit {
    let userInfo = JSON.parse(this.userService.getUserInfo());
     this.user.id = userInfo['id'];
     this.user.username = userInfo['username'];
+    this.user.follows.push(userInfo['follows']);
   }
 
   logout(){
