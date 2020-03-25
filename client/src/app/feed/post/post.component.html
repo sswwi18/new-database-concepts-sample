@@ -2,20 +2,20 @@
   <div class="card-body" id='postDiv'>
     <div class="center" *ngIf="post.image === true">
         <img [attr.src]=post.content[0]>
-        <p> posted by:<a href="{{'/users/' + post.user}}"> {{post.user}}</a></p>
+        <!-- <p> posted by:<a href="{{'/users/' + post.user}}"> {{post.user}}</a></p> -->
     </div>
     <div *ngIf="post.image === false">
       
       <div *ngFor="let word of post.content">
       
         <div *ngIf="post.hashtags.includes(word); else text">
-          <a style="float: left;" href="{{'/hashtag/' + word.slice(1)}}" [attr.id]=post.id>{{word}}</a>
+          <a class="float-left pl-1 pr-1" href="{{'/hashtag/' + word.slice(1)}}" [attr.id]=post.id>{{word}}</a>
         </div>
         <ng-template #text>
           <p style="float: left;">{{word}}</p>
         </ng-template>
       </div>
-      <p> posted by:<a href="{{'/users/' + post.user}}"> {{post.user}}</a></p>
+      
   </div>
 
  
@@ -25,9 +25,15 @@
 
 
   </div>
-  <div class="bottom bg-light">
+  <div class="bottom bg-light d-inline-flex pr-3 pl-3">
 
-    <div class="likebuttons">
+    <div class="">
+
+      <p> Gepostet von:<a href="{{'/users/' + post.user}}"> {{post.user}}</a></p>
+
+    </div>
+
+    <div class="likebuttons ml-auto">
 
       <app-like-button [post]="post" class="pr-3"></app-like-button>
       <app-dislike-button [post]="post"></app-dislike-button>
