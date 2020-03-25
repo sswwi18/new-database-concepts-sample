@@ -21,9 +21,10 @@ export class FollowComponent implements OnInit {
   constructor(private socket: SocketService, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.getUsers();
+    this.getUsers();  
     this.socket.posts$.subscribe(posts => this.posts = posts);
     this.filter();
+    this.getUser(); 
   }
 
   follow(user: string){
@@ -65,6 +66,14 @@ export class FollowComponent implements OnInit {
       error => {console.log(error); this.error = JSON.stringify(error['error']['message']).slice(1, -1);});
   }
 
+
+  getUser(){
+    this.userService.getUser()
+      .subscribe(data => {
+        this.user = data['user'];
+        this.userService.setUserInfo({'user': this.user});
+      })
+  }
 
   filter() {
     var type="users";

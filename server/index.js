@@ -59,6 +59,9 @@ app.get('/', (req, res) => {
     res.send('It works!');
 });
 
+app.get('/user', isLoggedIn, (req, res) => {res.status(200).json({"user" : req.user})});
+
+
 app.get('/users', isLoggedIn,  (req, res) => {
     redisClient.lrange('wwi-tweety-users', 0, -1, (err, postJsonStrings) => {
         if (err) {

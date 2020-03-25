@@ -62,5 +62,8 @@ export class UserService {
         return this.http.get<string>('/api/users', {headers: this.headers});
     }
 
+    public getUser() : Observable<any>{
+        return this.http.get<string>('/api/user', {headers: this.headers});
+    }
 
 }
