@@ -34,6 +34,7 @@ export class FollowComponent implements OnInit {
       .then((res) => {
         console.log(res); 
         this.user = res['user'];
+        console.log(res['user']);
         this.userService.setUserInfo({'user': this.user});
         console.log(this.userService.getUserInfo());
         this.success = 'followed';
@@ -48,6 +49,7 @@ export class FollowComponent implements OnInit {
       .subscribe(data => {
         console.log(data); 
         this.user = data['user'];
+        console.log(data['user']);
         this.userService.setUserInfo({'user': this.user});
         console.log(this.userService.getUserInfo());
         this.success='unfollowed successful';
@@ -71,6 +73,7 @@ export class FollowComponent implements OnInit {
     this.userService.getUser()
       .subscribe(data => {
         this.user = data['user'];
+        console.log(data['user']);
         this.userService.setUserInfo({'user': this.user});
       })
   }

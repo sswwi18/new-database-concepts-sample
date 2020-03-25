@@ -155,7 +155,7 @@ app.post('/follow', isLoggedIn, (req, res) => {
         }
         const objects = usersJsonStrings.map(string => JSON.parse(string));
         for (var i = 0; i<objects.length; i++){
-            if(objects[i].follows.includes(follow)){
+            if(objects[i].username === req.user.username && objects[i].follows.includes(follow)){
                 console.log(objects[i].follows);
                 console.log(follow);
                 return res.status(400).json({"statusCode" : 400, "message" : "already following"});
