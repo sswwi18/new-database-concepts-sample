@@ -42,10 +42,8 @@ export class RegisterComponent implements OnInit {
       return this.error = 'passwords do not match'; 
     }
    
-
     this.loading = true;
    
-
     this.UserService.register(this.registerForm.value)
       .subscribe(data => {
         console.log(data);
@@ -54,9 +52,8 @@ export class RegisterComponent implements OnInit {
       error => {
         console.log(error);
         this.loading = false;
-        return this.error = 'username already taken'
-      }
-      )
+        return this.error = 'username already taken';
+      })
      
       };
   

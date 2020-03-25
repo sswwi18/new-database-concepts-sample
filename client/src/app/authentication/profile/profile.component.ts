@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
 
-  public user: User = {"id" : null, "password": "", "username": ""};
+  public user: User = {"id" : null, "password": "", "username": "", "follows": []};
   constructor(
     private userService: UserService,
     private router: Router) { }

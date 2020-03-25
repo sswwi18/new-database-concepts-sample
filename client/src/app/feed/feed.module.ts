@@ -7,11 +7,12 @@ import {PostComponent} from './post/post.component';
 import {LikeButtonComponent} from './like-button/like-button.component';
 import {DislikeButtonComponent} from './dislike-button/dislike-button.component';
 import {FilterFeedComponent} from './filter-feed/filter-feed.component';
-
+import { FollowComponent } from './follow/follow.component';
+import {FilterPipe} from '../filter.pipe';
 
 
 @NgModule({
-  declarations: [FeedPageComponent, PostComponent, LikeButtonComponent, DislikeButtonComponent, FilterFeedComponent],
+  declarations: [FeedPageComponent, PostComponent, LikeButtonComponent, DislikeButtonComponent, FilterFeedComponent, FollowComponent, FilterPipe],
   imports: [
     CommonModule,
     FormsModule,

@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string; 
   error = '';
     
-  public user: User = {"id" : null, "password": "", "username": ""};   
+  public user: User = {"id" : null, "password": "", "username": "", "follows": []};   
 
 
   constructor(

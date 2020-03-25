@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Post} from "../feed.interfaces";
 import {SocketService} from "../socket.service";
 import { v4 as uuid } from 'uuid';
-import {User} from '../../authentication/authentication.interfaces';
+
 
 @Component({
   selector: 'app-feed-page',
