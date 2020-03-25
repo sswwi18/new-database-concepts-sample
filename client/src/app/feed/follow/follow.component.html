@@ -1,14 +1,21 @@
 <form (submit)="$event.preventDefault(); follow(postContent.value)">
     <div class="form-group">
       <label class="sr-only" for="postContent">Search for...</label>
-      <input #postContent class="form-control" id="postContent" name="username"[(ngModel)]="username" placeholder="Suche nach user...">
+      <input #postContent class="form-control" id="postContent" name="name"[(ngModel)]="name" placeholder="Suche nach user...">
     </div>
   </form>
 
-  <div *ngFor ="let user of users | filter: username">
-    <div class="d-inline-flex mb-2">
-    <div class="pr-2 min-w"> {{user}} </div> <div class="pr-2"><button class="btn btn-primary btn-sm" (click)="follow(user)">Follow</button> </div> <div class="pr-2"><button class="btn btn-danger btn-sm" (click)="unfollow(user)">Unfollow</button> </div><br>
-  </div>
+
+
+  <div *ngFor ="let x of users | filter: name">
+
+      <div *ngIf="user.follows.includes(x)" style="color: green;" class="d-inline-flex mb-2">
+        <div class="pr-2 min-w"> {{x}} </div> <div class="pr-2"><button class="btn btn-primary btn-sm" (click)="follow(x)">Follow</button> </div> <div class="pr-2"><button class="btn btn-danger btn-sm" (click)="unfollow(x)">Unfollow</button> </div><br>
+      </div>
+      <div *ngIf="!user.follows.includes(x)" style="color: black;" class="d-inline-flex mb-2">
+        <div class="pr-2 min-w"> {{x}} </div> <div class="pr-2"><button class="btn btn-primary btn-sm" (click)="follow(x)">Follow</button> </div> <div class="pr-2"><button class="btn btn-danger btn-sm" (click)="unfollow(x)">Unfollow</button> </div><br>
+      </div>
+  
   </div>
 
   <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
