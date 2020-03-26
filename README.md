@@ -28,6 +28,13 @@ To start the client, run `npm start` (without Angular CLI) or `ng serve` (with A
 
 The client web app should now be available at `http://localhost:4200`.
 
+### Database
+
+For Windows users please follow to following instructions to set up the redis database: https://redislabs.com/blog/redis-on-windows-10/ .
+
+
+
+
 ## Reading Class
 
 - [Angular CLI](https://cli.angular.io/)
