@@ -8,7 +8,7 @@
     <ul class="list-group list-group-flush">
         <li class="list-group-item d-inline-flex"><p class="min-w">ID: </p><p>{{user.id}}</p></li>
         <li class="list-group-item d-inline-flex"><p class="min-w">Username:</p><p> {{user.username}}</p></li>
-        <li class="list-group-item d-inline-flex"><p class="min-w">You're following:</p><div *ngFor="let follower of user.follows">{{follower}}</div></li>
+        <li class="list-group-item d-inline-flex"><p class="min-w">You're following:</p><div *ngFor="let follower of user.follows"><p>{{follower}}</p></div></li>
     </ul>
  </div>
 
