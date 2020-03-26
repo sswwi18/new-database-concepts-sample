@@ -30,9 +30,22 @@ The client web app should now be available at `http://localhost:4200`.
 
 ### Database
 
+#### Windows
 For Windows users please follow to these instructions to set up the redis database: https://redislabs.com/blog/redis-on-windows-10/ .
 
+#### Mac OS
+- Make sure you have Homebrew installed on your Mac. You can donwload it at: `https://brew.sh`
 
+- To install Redis run `brew install redis`
+- To start Redis server run `brew services start redis`
+- To stop redis server run `brew services stop redis`
+- To restart Redis server run `brew services restart redis`
+
+- To check if Redis is running connect to the Redis server using `redis-cli`
+- You should see something like `127.0.0.1:6379>`
+- Type `ping` and you should get the output `PONG`
+
+- For further information visit: `https://tableplus.com/blog/2018/10/how-to-start-stop-restart-redis.html`
 
 
 ## Reading Class
