@@ -30,7 +30,7 @@ The client web app should now be available at `http://localhost:4200`.
 
 ### Database
 
-For Windows users please follow to following instructions to set up the redis database: https://redislabs.com/blog/redis-on-windows-10/ .
+For Windows users please follow to these instructions to set up the redis database: https://redislabs.com/blog/redis-on-windows-10/ .
 
 
 
