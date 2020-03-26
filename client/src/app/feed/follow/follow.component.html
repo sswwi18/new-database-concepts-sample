@@ -9,10 +9,10 @@
 
   <div *ngFor ="let x of users | filter: name">
 
-      <div *ngIf="user.follows.includes(x)" style="color: green;" class="d-inline-flex mb-2">
+      <div *ngIf="user.follows.includes(x)"  class="d-inline-flex mb-2 text-success">
         <div class="pr-2 min-w"> {{x}} </div> <div class="pr-2"><button class="btn btn-primary btn-sm" (click)="follow(x)">Follow</button> </div> <div class="pr-2"><button class="btn btn-danger btn-sm" (click)="unfollow(x)">Unfollow</button> </div><br>
       </div>
-      <div *ngIf="!user.follows.includes(x)" style="color: black;" class="d-inline-flex mb-2">
+      <div *ngIf="!user.follows.includes(x)" class="d-inline-flex mb-2 text-dark">
         <div class="pr-2 min-w"> {{x}} </div> <div class="pr-2"><button class="btn btn-primary btn-sm" (click)="follow(x)">Follow</button> </div> <div class="pr-2"><button class="btn btn-danger btn-sm" (click)="unfollow(x)">Unfollow</button> </div><br>
       </div>
   
